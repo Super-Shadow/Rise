@@ -123,7 +123,7 @@ namespace Rise
 		auto glShaderIDIndex = 0;
 		for (const auto& [first, second] : shaderSources) // Good use of structural binding!
 		{
-			const GLenum type = first;
+			const auto type = first;
 			const auto source = second;
 
 			// Create an empty vertex shader handle
