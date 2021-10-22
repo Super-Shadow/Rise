@@ -3,7 +3,8 @@
 #include <Rise/Core/EntryPoint.h>
 // --------------------------
 
-#include "GameLayer.h"
+#include "ExampleLayer.h"
+#include "Sandbox2D.h"
 
 class Sandbox final : public Rise::Application
 {
@@ -11,7 +12,7 @@ public:
 	Sandbox()
 	{
 		//PushLayer(new ExampleLayer());
-		PushLayer(new GameLayer());
+		PushLayer(new Sandbox2D());
 	}
 
 	Sandbox(const Sandbox&) = delete;

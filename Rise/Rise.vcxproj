@@ -169,7 +169,7 @@
     <ClInclude Include="src\Rise\Core\LayerStack.h" />
     <ClInclude Include="src\Rise\Core\Log.h" />
     <ClInclude Include="src\Rise\Core\MouseCodes.h" />
-    <ClInclude Include="src\Rise\Core\Timestep.h" />
+    <ClInclude Include="src\Rise\Core\TimeStep.h" />
     <ClInclude Include="src\Rise\Core\Window.h" />
     <ClInclude Include="src\Rise\Debug\Instrumentor.h" />
     <ClInclude Include="src\Rise\Events\ApplicationEvent.h" />

@@ -111,7 +111,7 @@
     <ClInclude Include="src\Rise\Core\MouseCodes.h">
       <Filter>src\Rise\Core</Filter>
     </ClInclude>
-    <ClInclude Include="src\Rise\Core\Timestep.h">
+    <ClInclude Include="src\Rise\Core\TimeStep.h">
       <Filter>src\Rise\Core</Filter>
     </ClInclude>
     <ClInclude Include="src\Rise\Core\Window.h">

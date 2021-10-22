@@ -165,6 +165,7 @@ namespace Rise
 			const auto elapsedTime = std::chrono::time_point_cast<std::chrono::microseconds>(endTimepoint).time_since_epoch() - std::chrono::time_point_cast<std::chrono::microseconds>(m_StartTimepoint).time_since_epoch();
 
 			Instrumentor::Get().WriteProfile({ m_Name, start, elapsedTime, std::this_thread::get_id() });
+
 			m_Stopped = true;
 		}
 	private:
@@ -174,11 +175,11 @@ namespace Rise
 	};
 }
 
-#define RS_PROFILE 0 // Disable debug logging for better performance
+#define RS_PROFILE 1
 #if RS_PROFILE
 	#define RS_PROFILE_BEGIN_SESSION(name, filepath) ::Rise::Instrumentor::Get().BeginSession(name, filepath)
 	#define RS_PROFILE_END_SESSION() ::Rise::Instrumentor::Get().EndSession()
-	#define RS_PROFILE_SCOPE(name) ::Rise::InstrumentationTimer timer##__LINE__(name); // TODO: Check this actually works!
+	#define RS_PROFILE_SCOPE(name) ::Rise::InstrumentationTimer timer##__LINE__(name);
 	#define RS_PROFILE_FUNCTION() RS_PROFILE_SCOPE(__FUNCSIG__)
 #else
 	#define RS_PROFILE_BEGIN_SESSION(name, filepath)
