@@ -12,10 +12,10 @@ namespace Rise
 	struct WindowProps
 	{
 		std::string Title;
-		unsigned int Width;
-		unsigned int Height;
+		int Width;
+		int Height;
 
-		WindowProps(std::string title = "Rise Engine", const unsigned int width = 1280, const unsigned int height = 720) : Title(std::move(title)), Width(width), Height(height) {}
+		WindowProps(std::string title = "Rise Engine", const int width = 1280, const int height = 720) : Title(std::move(title)), Width(width), Height(height) {}
 	};
 
 	// Interface representing a desktop system based Window
@@ -34,8 +34,8 @@ namespace Rise
 
 		virtual void OnUpdate() abstract;
 
-		[[nodiscard]] virtual unsigned int GetWidth() const abstract;
-		[[nodiscard]] virtual unsigned int GetHeight() const abstract;
+		[[nodiscard]] virtual int GetWidth() const abstract;
+		[[nodiscard]] virtual int GetHeight() const abstract;
 
 		// Window attributes
 		virtual void SetEventCallback(const EventCallbackFn& callback) abstract;

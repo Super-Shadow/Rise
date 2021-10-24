@@ -25,7 +25,7 @@ namespace Rise
 
 		virtual void Init() abstract;
 
-		virtual void SetViewport(uint32_t x, uint32_t y, uint32_t width, uint32_t height) abstract;
+		virtual void SetViewport(int x, int y, int width, int height) abstract;
 		virtual void SetClearColour(const glm::vec4& colour) abstract;
 		virtual void Clear() abstract;
 

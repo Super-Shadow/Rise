@@ -60,7 +60,7 @@ namespace Rise
 		glEnable(GL_DEPTH_TEST);
 	}
 
-	void OpenGLRendererAPI::SetViewport(uint32_t x, uint32_t y, uint32_t width, uint32_t height)
+	void OpenGLRendererAPI::SetViewport(int x, int y, int width, int height)
 	{
 		glViewport(x, y, width, height);
 	}

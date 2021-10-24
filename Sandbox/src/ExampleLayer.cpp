@@ -23,7 +23,7 @@ ExampleLayer::ExampleLayer() : Layer("Example"), m_CameraController(1280.f / 720
 	m_VertexArray->AddVertexBuffer(vertexBuffer);
 
 	constexpr uint32_t indices[3] = { 0, 1, 2 };
-	const Rise::Ref<Rise::IndexBuffer> indexBuffer = Rise::IndexBuffer::Create(indices, static_cast<uint32_t>(std::size(indices)));
+	const Rise::Ref<Rise::IndexBuffer> indexBuffer = Rise::IndexBuffer::Create(indices, std::size(indices));
 	m_VertexArray->SetIndexBuffer(indexBuffer);
 
 	m_SquareVertexArray = Rise::VertexArray::Create();
@@ -35,7 +35,7 @@ ExampleLayer::ExampleLayer() : Layer("Example"), m_CameraController(1280.f / 720
 		-0.5f,  0.5f, 0.0f, 0.0f, 1.0f
 	};
 
-	const Rise::Ref<Rise::VertexBuffer> squareVB = Rise::VertexBuffer::Create(squareVertices, static_cast<uint32_t>(sizeof squareVertices));
+	const Rise::Ref<Rise::VertexBuffer> squareVB = Rise::VertexBuffer::Create(squareVertices, sizeof squareVertices);
 	squareVB->SetLayout({
 		{Rise::ShaderDataType::Float3, "a_Position" },
 		{Rise::ShaderDataType::Float2, "a_TexCoord" }
@@ -43,7 +43,7 @@ ExampleLayer::ExampleLayer() : Layer("Example"), m_CameraController(1280.f / 720
 	m_SquareVertexArray->AddVertexBuffer(squareVB);
 
 	constexpr uint32_t squareIndices[6] = { 0, 1, 2, 2, 3, 0 };
-	const Rise::Ref<Rise::IndexBuffer> squareIB = Rise::IndexBuffer::Create(squareIndices, static_cast<uint32_t>(std::size(squareIndices)));
+	const Rise::Ref<Rise::IndexBuffer> squareIB = Rise::IndexBuffer::Create(squareIndices, std::size(squareIndices));
 	m_SquareVertexArray->SetIndexBuffer(squareIB);
 
 	const std::string vertexSrc = R"(
@@ -128,7 +128,7 @@ ExampleLayer::ExampleLayer() : Layer("Example"), m_CameraController(1280.f / 720
 
 void ExampleLayer::OnAttach()
 {
-	
+
 }
 
 void ExampleLayer::OnDetach()

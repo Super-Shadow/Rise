@@ -5,7 +5,7 @@
 
 namespace Rise
 {
-	static GLenum ShaderDataTypeToOpenGLBaseType(ShaderDataType type)
+	static GLenum ShaderDataTypeToOpenGLBaseType(const ShaderDataType type)
 	{
 		switch (type)
 		{
@@ -76,7 +76,7 @@ namespace Rise
 			// First param is the index, next two params are telling it that the bytes are 3 floats. Next param is telling it that they are not normalised.
 			// Next param is the amount of bytes between the vertices (So the space for each vertex aka 3(each point for triangle) * 4(size of a float).
 			// Last param is the offset for this specific attribute when it is applied to our vertices data thing. We want it to start at the beginning of each vec3 coordinate.
-			glVertexAttribPointer(m_VertexBufferIndex, static_cast<int>(element.GetComponentCount()), ShaderDataTypeToOpenGLBaseType(element.Type), element.Normalised ? GL_TRUE : GL_FALSE, static_cast<int>(layout.GetStride()), reinterpret_cast<const void*>(element.Offset));  // NOLINT(performance-no-int-to-ptr)
+			glVertexAttribPointer(m_VertexBufferIndex, element.GetComponentCount(), ShaderDataTypeToOpenGLBaseType(element.Type), element.Normalised ? GL_TRUE : GL_FALSE, layout.GetStride(), reinterpret_cast<const void*>(element.Offset));  // NOLINT(performance-no-int-to-ptr)
 
 			m_VertexBufferIndex++;
 		}

@@ -77,7 +77,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
-      <WarningLevel>Level4</WarningLevel>
+      <WarningLevel>Level3</WarningLevel>
       <DisableSpecificWarnings>4481;%(DisableSpecificWarnings)</DisableSpecificWarnings>
       <PreprocessorDefinitions>RS_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>..\Rise\vendor\spdlog\include;..\Rise\src;..\Rise\vendor;..\Rise\vendor\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>

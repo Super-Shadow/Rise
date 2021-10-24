@@ -7,7 +7,7 @@
 
 namespace Rise
 {
-	OpenGLTexture2D::OpenGLTexture2D(uint32_t width, uint32_t height) : m_Width(width), m_Height(height)
+	OpenGLTexture2D::OpenGLTexture2D(const int width, const int height) : m_Width(width), m_Height(height)
 	{
 		RS_PROFILE_FUNCTION();
 
@@ -77,11 +77,11 @@ namespace Rise
 		glDeleteTextures(1, &m_RendererID);
 	}
 
-	void OpenGLTexture2D::SetData(void* data, uint32_t size)
+	void OpenGLTexture2D::SetData(void* data, const std::size_t size)
 	{
 		RS_PROFILE_FUNCTION();
 
-		const uint32_t bytesPerPixel = m_DataFormat == GL_RGBA ? 4 : 3;
+		const auto bytesPerPixel = m_DataFormat == GL_RGBA ? 4 : 3;
 		RS_CORE_ASSERT(size == m_Width * m_Height * bytesPerPixel, "Data must be entire texture!");
 		glTextureSubImage2D(m_RendererID, 0, 0, 0, m_Width, m_Height, m_DataFormat, GL_UNSIGNED_BYTE, data);
 	}

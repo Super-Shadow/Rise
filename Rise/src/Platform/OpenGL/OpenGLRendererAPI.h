@@ -8,7 +8,7 @@ namespace Rise
 	public:
 		void Init() override;
 
-		void SetViewport(uint32_t x, uint32_t y, uint32_t width, uint32_t height) override;
+		void SetViewport(int x, int y, int width, int height) override;
 		void SetClearColour(const glm::vec4& colour) override;
 		void Clear() override;
 

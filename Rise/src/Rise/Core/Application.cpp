@@ -1,11 +1,11 @@
 #include "rspch.h"
 #include "Application.h"
 
-#include <ranges>
-
 #include "Rise/Core/TimeStep.h"
 #include "GLFW/glfw3.h"
 #include "Rise/Renderer/Renderer.h"
+
+#include <ranges>
 
 namespace Rise
 {

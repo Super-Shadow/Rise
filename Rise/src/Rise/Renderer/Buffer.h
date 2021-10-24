@@ -18,7 +18,7 @@ namespace Rise
 		Bool
 	};
 
-	static uint32_t ShaderDataTypeSize(ShaderDataType type)
+	static int ShaderDataTypeSize(const ShaderDataType type)
 	{
 		switch (type)
 		{
@@ -56,15 +56,15 @@ namespace Rise
 	{
 		std::string Name;
 		ShaderDataType Type;
-		size_t Offset;
-		uint32_t Size;
+		std::size_t Offset;
+		int Size;
 		bool Normalised;
 
 		//BufferElement() = default;
 
 		BufferElement(const ShaderDataType type, std::string name, const bool normalised = false) : Name(std::move(name)), Type(type), Offset(0), Size(ShaderDataTypeSize(type)), Normalised(normalised) {}
 
-		[[nodiscard]] uint32_t GetComponentCount() const
+		[[nodiscard]] int GetComponentCount() const
 		{
 			switch (Type)
 			{
@@ -111,7 +111,7 @@ namespace Rise
 			CalculateOffsetsAndStride();
 		}
 
-		[[nodiscard]] uint32_t GetStride() const { return m_Stride; }
+		[[nodiscard]] int GetStride() const { return m_Stride; }
 		[[nodiscard]] const std::vector<BufferElement>& GetElements() const { return m_Elements; }
 
 		[[nodiscard]] std::vector<BufferElement>::iterator begin() { return m_Elements.begin(); }
@@ -133,7 +133,7 @@ namespace Rise
 			}
 		}
 		std::vector<BufferElement> m_Elements;
-		uint32_t m_Stride = 0;
+		int m_Stride = 0;
 	};
 
 	class VertexBuffer
@@ -151,7 +151,7 @@ namespace Rise
 		[[nodiscard]] virtual const BufferLayout& GetLayout() const abstract;
 		virtual void SetLayout(const BufferLayout& layout) abstract;
 
-		static Ref<VertexBuffer> Create(const float* vertices, uint32_t size);
+		static Ref<VertexBuffer> Create(const float* vertices, std::size_t size);
 
 	protected:
 		VertexBuffer() = default;
@@ -170,9 +170,9 @@ namespace Rise
 		virtual void Bind() const abstract;
 		virtual void Unbind() const abstract;
 
-		[[nodiscard]] virtual uint32_t GetCount() const abstract;
+		[[nodiscard]] virtual std::size_t GetCount() const abstract;
 
-		static Ref<IndexBuffer> Create(const uint32_t* indices, uint32_t count);
+		static Ref<IndexBuffer> Create(const uint32_t* indices, std::size_t count);
 
 	protected:
 		IndexBuffer() = default;

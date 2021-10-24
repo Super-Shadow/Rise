@@ -3,7 +3,7 @@
 
 #ifdef RS_PLATFORM_WINDOWS
 
-inline int main(int argc, char** argv)
+int main(int argc, char** argv)
 {
 	Rise::Log::Init();
 

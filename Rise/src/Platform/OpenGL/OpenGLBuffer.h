@@ -6,7 +6,7 @@ namespace Rise
 	class OpenGLVertexBuffer final : public VertexBuffer
 	{
 	public:
-		OpenGLVertexBuffer(const float* vertices, uint32_t size);
+		OpenGLVertexBuffer(const float* vertices, std::size_t size);
 
 		OpenGLVertexBuffer(const OpenGLVertexBuffer&) = delete;
 		OpenGLVertexBuffer& operator=(const OpenGLVertexBuffer&) = delete;
@@ -30,7 +30,7 @@ namespace Rise
 	class OpenGLIndexBuffer final : public IndexBuffer
 	{
 	public:
-		OpenGLIndexBuffer(const uint32_t* indices, uint32_t count);
+		OpenGLIndexBuffer(const uint32_t* indices, std::size_t count);
 
 		OpenGLIndexBuffer(const OpenGLIndexBuffer&) = delete;
 		OpenGLIndexBuffer& operator=(const OpenGLIndexBuffer&) = delete;
@@ -43,8 +43,9 @@ namespace Rise
 		void Bind() const override;
 		void Unbind() const override;
 
-		[[nodiscard]] uint32_t GetCount() const override { return m_Count;  }
+		[[nodiscard]] std::size_t GetCount() const override { return m_Count;  }
 	private:
-		uint32_t m_RendererID, m_Count;
+		uint32_t m_RendererID;
+		std::size_t m_Count;
 	};
 }

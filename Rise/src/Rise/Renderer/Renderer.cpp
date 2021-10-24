@@ -20,7 +20,7 @@ namespace Rise
 		Renderer2D::Shutdown();
 	}
 
-	void Renderer::OnWindowResize(const uint32_t width, const uint32_t height)
+	void Renderer::OnWindowResize(const int width, const int height)
 	{
 		RenderCommand::SetViewport(0, 0, width, height);
 	}

@@ -32,7 +32,7 @@ namespace Rise
 			-0.5f,  0.5f, 0.0f, 0.f, 1.f
 		};
 
-		const Ref<VertexBuffer> squareVB = VertexBuffer::Create(squareVertices, static_cast<uint32_t>(sizeof squareVertices));
+		const Ref<VertexBuffer> squareVB = VertexBuffer::Create(squareVertices, sizeof squareVertices);
 		squareVB->SetLayout({
 			{ShaderDataType::Float3, "a_Position" },
 			{ShaderDataType::Float2, "a_TexCoord" },
@@ -41,7 +41,7 @@ namespace Rise
 		s_Data->QuadVertexArray->AddVertexBuffer(squareVB);
 
 		constexpr uint32_t squareIndices[6] = { 0, 1, 2, 2, 3, 0 };
-		const Ref<IndexBuffer> squareIB = IndexBuffer::Create(squareIndices, static_cast<uint32_t>(std::size(squareIndices)));
+		const Ref<IndexBuffer> squareIB = IndexBuffer::Create(squareIndices, std::size(squareIndices));
 		s_Data->QuadVertexArray->SetIndexBuffer(squareIB);
 
 		s_Data->WhiteTexture = Texture2D::Create(1, 1); // Creates a 1x1 texture

@@ -32,12 +32,8 @@ namespace Rise
 		RS_PROFILE_FUNCTION();
 
 		m_Data.Title = props.Title;
-		// TODO: this is such a non issue, this will only be an error if the requested width or height is over 9,223,372,036,854,775,807.
-		// As when we cast a number higher than that to signed int, it will overflow to a negative number.
-		// I highly doubt that I will be alive when we have a resolution bigger than that number. :)
-		RS_CORE_ASSERT(std::in_range<int>(props.Width), "Warning overflow casting unsigned to signed!");
-		m_Data.Width = std::in_range<int>(props.Width) ? static_cast<int>(props.Width) : m_Data.Width;
-		m_Data.Height = std::in_range<int>(props.Height) ? static_cast<int>(props.Height) : m_Data.Height;
+		m_Data.Width = props.Width;
+		m_Data.Height = props.Height;
 
 		RS_CORE_INFO("Creating window {0} ({1}, {2})", m_Data.Title, m_Data.Width, m_Data.Height);
 

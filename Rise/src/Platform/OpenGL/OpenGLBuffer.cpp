@@ -5,7 +5,7 @@
 
 namespace Rise
 {
-	OpenGLVertexBuffer::OpenGLVertexBuffer(const float* vertices, const uint32_t size)
+	OpenGLVertexBuffer::OpenGLVertexBuffer(const float* vertices, const std::size_t size)
 	{
 		RS_PROFILE_FUNCTION();
 
@@ -38,14 +38,14 @@ namespace Rise
 
 	// TODO: Snus seperate these into their own files 
 
-	OpenGLIndexBuffer::OpenGLIndexBuffer(const uint32_t* indices, const uint32_t count) : m_Count(count)
+	OpenGLIndexBuffer::OpenGLIndexBuffer(const uint32_t* indices, const std::size_t count) : m_Count(count)
 	{
 		RS_PROFILE_FUNCTION();
 
 		glCreateBuffers(1, &m_RendererID);
 		glBindBuffer(GL_ARRAY_BUFFER, m_RendererID); // TODO: explain this better than just a link https://github.com/TheCherno/Hazel/pull/107
 		// Pass our drawing order into buffer. Static draw since it wont change at runtime.
-		glBufferData(GL_ARRAY_BUFFER, static_cast<long long>(count * sizeof(uint32_t)), indices, GL_STATIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, static_cast<GLsizeiptr>(count * sizeof(uint32_t)), indices, GL_STATIC_DRAW);
 	}
 
 	OpenGLIndexBuffer::~OpenGLIndexBuffer()

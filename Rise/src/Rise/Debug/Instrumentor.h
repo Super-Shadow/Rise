@@ -4,8 +4,10 @@
 #include <chrono>
 #include <algorithm>
 #include <fstream>
+#include <iomanip>
 
 #include <thread>
+#include <utility>
 
 namespace Rise
 {
@@ -20,6 +22,8 @@ namespace Rise
 	struct InstrumentationSession
 	{
 		std::string Name;
+
+		explicit InstrumentationSession(std::string name) : Name(std::move(name)) {}
 	};
 
 	class Instrumentor

@@ -6,7 +6,7 @@
 
 namespace Rise
 {
-	Ref<VertexBuffer> VertexBuffer::Create(const float* vertices, const uint32_t size)
+	Ref<VertexBuffer> VertexBuffer::Create(const float* vertices, const std::size_t size)
 	{
 		switch (Renderer::GetAPI()) 
 		{
@@ -21,7 +21,7 @@ namespace Rise
 		return nullptr;
 	}
 
-	Ref<IndexBuffer> IndexBuffer::Create(const uint32_t* indices, const uint32_t count)
+	Ref<IndexBuffer> IndexBuffer::Create(const uint32_t* indices, const std::size_t count)
 	{
 		switch (Renderer::GetAPI())
 		{
