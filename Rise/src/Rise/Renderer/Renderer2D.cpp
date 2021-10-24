@@ -84,16 +84,7 @@ namespace Rise
 
 	void Renderer2D::DrawQuad(const glm::vec3& position, const glm::vec2& size, const glm::vec4& colour)
 	{
-		RS_PROFILE_FUNCTION();
-
-		s_Data->TextureShader->SetFloat4("u_Colour", colour);
-		s_Data->WhiteTexture->Bind();
-
-		const auto transform = glm::translate(glm::mat4(1.f), position) * glm::scale(glm::mat4(1.f), { size.x, size.y, 1.f });
-		s_Data->TextureShader->SetMat4("u_Transform", transform);
-
-		s_Data->QuadVertexArray->Bind();
-		RenderCommand::DrawIndexed(s_Data->QuadVertexArray);
+		DrawQuad(position, 0.f, size, colour);
 	}
 
 	void Renderer2D::DrawQuad(const glm::vec2& position, const float rotation, const glm::vec2& size, const glm::vec4& colour)
@@ -101,14 +92,25 @@ namespace Rise
 		DrawQuad({ position.x, position.y, 0.f }, rotation, size, colour);
 	}
 
-	void Renderer2D::DrawQuad(const glm::vec3& position, const float rotation, const glm::vec2& size, const glm::vec4& colour)
+	void Renderer2D::DrawQuad(const glm::vec3& position, const float rotation /*Radians*/, const glm::vec2& size, const glm::vec4& colour)
 	{
 		RS_PROFILE_FUNCTION();
 
 		s_Data->TextureShader->SetFloat4("u_Colour", colour);
 		s_Data->WhiteTexture->Bind();
 
-		const auto transform = glm::translate(glm::mat4(1.f), position) * glm::rotate(glm::mat4(1.f), rotation, { 0.f, 0.f, 1.f }) * glm::scale(glm::mat4(1.f), { size.x, size.y, 1.f });
+
+		glm::mat4 transform;
+
+		if (rotation != 0.f) // Rotation costs alot, if not needed don't do it!.
+		{
+			transform = glm::translate(glm::mat4(1.f), position) * glm::rotate(glm::mat4(1.f), rotation, { 0.f, 0.f, 1.f }) * glm::scale(glm::mat4(1.f), { size.x, size.y, 1.f });
+		}
+		else
+		{
+			transform = glm::translate(glm::mat4(1.f), position) * glm::scale(glm::mat4(1.f), { size.x, size.y, 1.f });
+		}
+
 		s_Data->TextureShader->SetMat4("u_Transform", transform);
 
 		s_Data->QuadVertexArray->Bind();
@@ -151,7 +153,7 @@ namespace Rise
 		DrawQuad({ position.x, position.y, 0.f }, rotation, size, texture, texScale, tintColour);
 	}
 
-	void Renderer2D::DrawQuad(const glm::vec3& position, const float rotation, const glm::vec2& size, const Ref<Texture>& texture, const float texScale, const glm::vec4& tintColour)
+	void Renderer2D::DrawQuad(const glm::vec3& position, const float rotation /*Radians*/, const glm::vec2& size, const Ref<Texture>& texture, const float texScale, const glm::vec4& tintColour)
 	{
 		RS_PROFILE_FUNCTION();
 
@@ -159,7 +161,16 @@ namespace Rise
 		s_Data->TextureShader->SetFloat4("u_Colour", tintColour);
 		s_Data->TextureShader->SetFloat("u_TexScale", texScale);
 
-		const auto transform = glm::translate(glm::mat4(1.f), position) * glm::rotate(glm::mat4(1.f), rotation,{ 0.f, 0.f, 1.f }) * glm::scale(glm::mat4(1.f), { size.x, size.y, 1.f });
+		glm::mat4 transform;
+		
+		if(rotation != 0.f) // Rotation costs alot, if not needed don't do it!.
+		{
+			transform = glm::translate(glm::mat4(1.f), position) * glm::rotate(glm::mat4(1.f), rotation,{ 0.f, 0.f, 1.f }) * glm::scale(glm::mat4(1.f), { size.x, size.y, 1.f });
+		}
+		else
+		{
+			transform = glm::translate(glm::mat4(1.f), position) * glm::scale(glm::mat4(1.f), { size.x, size.y, 1.f });
+		}
 		s_Data->TextureShader->SetMat4("u_Transform", transform);
 
 		texture->Bind();
