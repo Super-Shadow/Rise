@@ -10,7 +10,7 @@ namespace Rise
 	class OrthographicCameraController
 	{
 	public:
-		OrthographicCameraController(float aspectRatio, bool bRotation = false);
+		explicit OrthographicCameraController(float aspectRatio, bool bRotation = false);
 
 		void OnUpdate(TimeStep timestep);
 		void OnEvent(Event& e);

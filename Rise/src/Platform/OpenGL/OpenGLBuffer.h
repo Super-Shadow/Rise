@@ -23,7 +23,7 @@ namespace Rise
 		void SetLayout(const BufferLayout& layout) override { m_Layout = layout; }
 
 	private:
-		uint32_t m_RendererID;
+		uint32_t m_RendererID{};
 		BufferLayout m_Layout;
 	};
 
@@ -45,7 +45,7 @@ namespace Rise
 
 		[[nodiscard]] std::size_t GetCount() const override { return m_Count;  }
 	private:
-		uint32_t m_RendererID;
+		uint32_t m_RendererID{};
 		std::size_t m_Count;
 	};
 }

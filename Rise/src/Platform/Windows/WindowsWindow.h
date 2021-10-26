@@ -11,7 +11,7 @@ namespace Rise
 	class WindowsWindow final :public Window
 	{
 	public:
-		WindowsWindow(const WindowProps& props);
+		explicit WindowsWindow(const WindowProps& props);
 
 		WindowsWindow(const WindowsWindow&) = delete;
 		WindowsWindow& operator=(const WindowsWindow&) = delete;
@@ -34,9 +34,9 @@ namespace Rise
 		[[nodiscard]] void* GetNativeWindow() const override { return m_Window; }
 	private:
 		void Init(const WindowProps& props);
-		void Shutdown();
+		void Shutdown() const;
 
-		GLFWwindow* m_Window;
+		GLFWwindow* m_Window = nullptr;
 		Scope<GraphicsContext> m_Context;
 
 		struct WindowData

@@ -19,7 +19,7 @@ namespace Rise
 		s_Instance = this;
 
 		m_Window = Window::Create();
-		m_Window->SetEventCallback(RS_BIND_EVENT_FN(Application::OnEvent));
+		m_Window->SetEventCallback(RS_BIND_EVENT_FN(Application::OnEvent)); 
 
 		Renderer::Init();
 
@@ -43,7 +43,7 @@ namespace Rise
 			RS_PROFILE_SCOPE("RunLoop");
 
 			const auto time = static_cast<float>(glfwGetTime()); // TODO: Platform::GetTime
-			const TimeStep timestep = time - m_LastFrameTime;
+			const TimeStep timeStep(time - m_LastFrameTime);
 			m_LastFrameTime = time;
 
 			if(m_UpdateBuffers) // This was in OnWindowResize, but it is called everytime it resized, whereas we only need to update buffer once user has finished resizing. This is dependant on Application::Run() being paused during resizing!
@@ -55,9 +55,9 @@ namespace Rise
 			if (!m_Minimized)
 			{
 				RS_PROFILE_SCOPE("LayerStack OnUpdate");
-				for (Layer* layer : m_LayerStack)
+				for (auto* layer : m_LayerStack)
 				{
-					layer->OnUpdate(timestep);
+					layer->OnUpdate(timeStep);
 				}
 			}
 
@@ -65,7 +65,7 @@ namespace Rise
 			{
 				RS_PROFILE_SCOPE("LayerStack OnImGuiRender");
 
-				for (Layer* layer : m_LayerStack)
+				for (auto* layer : m_LayerStack)
 				{
 					layer->OnImGuiRender();
 				}

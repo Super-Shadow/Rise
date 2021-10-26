@@ -8,7 +8,7 @@ namespace Rise
 	{
 	public:
 		OpenGLTexture2D(int width, int height);
-		OpenGLTexture2D(const std::string& path);
+		explicit OpenGLTexture2D(const std::string& path);
 
 		OpenGLTexture2D(const OpenGLTexture2D&) = delete;
 		OpenGLTexture2D& operator=(const OpenGLTexture2D&) = delete;
@@ -27,7 +27,7 @@ namespace Rise
 	private:
 		std::string m_Path;
 		int m_Width, m_Height;
-		uint32_t m_RendererID;
+		uint32_t m_RendererID{};
 		GLenum m_InternalFormat, m_DataFormat;
 	};
 }

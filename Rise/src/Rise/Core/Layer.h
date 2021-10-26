@@ -9,7 +9,7 @@ namespace Rise
 	class RISE_API Layer
 	{
 	public:
-		Layer(const std::string& name = "Layer");
+		explicit Layer(std::string name = "Layer");
 
 
 		Layer(const Layer&) = delete;

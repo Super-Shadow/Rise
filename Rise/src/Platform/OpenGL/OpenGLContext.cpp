@@ -31,7 +31,7 @@ namespace Rise
 			glGetIntegerv(GL_MAJOR_VERSION, &versionMajor);
 			glGetIntegerv(GL_MINOR_VERSION, &versionMinor);
 
-			RS_CORE_ASSERT(versionMajor > 4 || (versionMajor == 4 && versionMinor >= 6), "Hazel requires at least OpenGL version 4.6!");
+			RS_CORE_ASSERT(versionMajor > 4 || versionMajor == 4 && versionMinor >= 6, "Hazel requires at least OpenGL version 4.6!");
 		#endif
 	}
 

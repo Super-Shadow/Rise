@@ -9,7 +9,7 @@ namespace Rise
 		unsigned source,
 		unsigned type,
 		unsigned id,
-		unsigned severity,
+		const unsigned severity,
 		int length,
 		const char* message,
 		const void* userParam)
@@ -60,7 +60,7 @@ namespace Rise
 		glEnable(GL_DEPTH_TEST);
 	}
 
-	void OpenGLRendererAPI::SetViewport(int x, int y, int width, int height)
+	void OpenGLRendererAPI::SetViewport(const int x, const int y, const int width, const int height)
 	{
 		glViewport(x, y, width, height);
 	}

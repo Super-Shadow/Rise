@@ -57,14 +57,14 @@ namespace Rise
 
 		EVENT_CLASS_CATEGORY(EventCategoryMouse | EventCategoryInput)
 	protected:
-		MouseButtonEvent(const MouseCode button) : m_Button(button) {}
+		explicit MouseButtonEvent(const MouseCode button) : m_Button(button) {}
 		MouseCode m_Button;
 	};
 
 	class RISE_API MouseButtonPressedEvent final : public MouseButtonEvent
 	{
 	public:
-		MouseButtonPressedEvent(const MouseCode button) : MouseButtonEvent(button) {}
+		explicit MouseButtonPressedEvent(const MouseCode button) : MouseButtonEvent(button) {}
 
 		[[nodiscard]] std::string ToString() const override
 		{
@@ -79,7 +79,7 @@ namespace Rise
 	class RISE_API MouseButtonReleasedEvent final : public MouseButtonEvent
 	{
 	public:
-		MouseButtonReleasedEvent(const MouseCode button) : MouseButtonEvent(button) {}
+		explicit MouseButtonReleasedEvent(const MouseCode button) : MouseButtonEvent(button) {}
 
 		[[nodiscard]] std::string ToString() const override
 		{

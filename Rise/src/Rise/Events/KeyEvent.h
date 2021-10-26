@@ -12,7 +12,7 @@ namespace Rise
 
 		EVENT_CLASS_CATEGORY(EventCategoryKeyboard | EventCategoryInput)
 	protected:
-		KeyEvent(const KeyCode keyCode) : m_KeyCode(keyCode) {}
+		explicit KeyEvent(const KeyCode keyCode) : m_KeyCode(keyCode) {}
 		KeyCode m_KeyCode;
 	};
 
@@ -40,7 +40,7 @@ namespace Rise
 	class RISE_API KeyReleasedEvent final : public KeyEvent
 	{
 	public:
-		KeyReleasedEvent(const KeyCode keyCode) : KeyEvent(keyCode) {}
+		explicit KeyReleasedEvent(const KeyCode keyCode) : KeyEvent(keyCode) {}
 
 		[[nodiscard]] std::string ToString() const override 
 		{
@@ -55,7 +55,7 @@ namespace Rise
 	class RISE_API KeyTypedEvent final : public KeyEvent
 	{
 	public:
-		KeyTypedEvent(const KeyCode keyCode) : KeyEvent(keyCode) {}
+		explicit KeyTypedEvent(const KeyCode keyCode) : KeyEvent(keyCode) {}
 
 		// nodiscard just is warning saying "hey you used this function but havent used what it returns" mainly for functions that are purely done for that returning value.
 		// Like why else would you call tostring but not store/use it?

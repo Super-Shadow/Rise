@@ -15,7 +15,7 @@ namespace Rise
 		int Width;
 		int Height;
 
-		WindowProps(std::string title = "Rise Engine", const int width = 1280, const int height = 720) : Title(std::move(title)), Width(width), Height(height) {}
+		explicit WindowProps(std::string title = "Rise Engine", const int width = 1280, const int height = 720) : Title(std::move(title)), Width(width), Height(height) {}
 	};
 
 	// Interface representing a desktop system based Window

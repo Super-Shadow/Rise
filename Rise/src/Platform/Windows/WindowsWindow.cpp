@@ -169,7 +169,7 @@ namespace Rise
 		});
 	}
 
-	void WindowsWindow::Shutdown()
+	void WindowsWindow::Shutdown() const
 	{
 		RS_PROFILE_FUNCTION();
 

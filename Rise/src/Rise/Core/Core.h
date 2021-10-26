@@ -78,8 +78,7 @@
 
 #define BIT(x) (1 << (x))
 
-#define RS_BIND_EVENT_FN(fn) std::bind(&fn, this, std::placeholders::_1)
-
+#define RS_BIND_EVENT_FN(fn) std::bind(&fn, this, std::placeholders::_1) // NOLINT(modernize-avoid-bind, bugprone-macro-parentheses)
 
 
 namespace Rise

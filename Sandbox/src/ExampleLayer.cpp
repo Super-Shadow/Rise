@@ -7,7 +7,7 @@ ExampleLayer::ExampleLayer() : Layer("Example"), m_CameraController(1280.f / 720
 {
 	m_VertexArray = Rise::VertexArray::Create();
 
-	// Plot our triange on X Y Z coordinates. X is horizontal and Y is vertical and Z is depth. X is -1 to 1 and Y is -1 bottom and 1 top.
+	// Plot our triangle on X Y Z coordinates. X is horizontal and Y is vertical and Z is depth. X is -1 to 1 and Y is -1 bottom and 1 top.
 	constexpr float vertices[3 * 7] = {
 		-0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 1.0f, 1.0f,
 		0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f,
@@ -152,11 +152,11 @@ void ExampleLayer::OnUpdate(const Rise::TimeStep timeStep)
 	m_FlatShader->Bind();
 	m_FlatShader->SetFloat3("u_Colour", m_SquareColour);
 
-	for (float y = 0; y < 20; ++y)
+	for (int y = 0; y < 20; ++y)
 	{
-		for (float x = 0; x < 20; ++x)
+		for (int x = 0; x < 20; ++x)
 		{
-			glm::vec3 pos(x * 0.11f, y * 0.11f, 0.0f);
+			glm::vec3 pos(static_cast<float>(x) * 0.11f, static_cast<float>(y) * 0.11f, 0.0f);
 			const glm::mat4 transform = translate(glm::mat4(1.0f), pos) * scale;
 			// Draws our square
 			Rise::Renderer::Submit(m_FlatShader, m_SquareVertexArray, transform);

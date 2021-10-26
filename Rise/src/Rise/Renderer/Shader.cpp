@@ -69,6 +69,7 @@ namespace Rise
 		return m_Shaders[name];
 	}
 
+
 	bool ShaderLibrary::Exists(const std::string& name) const
 	{
 		return m_Shaders.find(name) != m_Shaders.end();

@@ -10,7 +10,7 @@ namespace Rise
 	class OpenGLShader final : public Shader
 	{
 	public:
-		OpenGLShader(const std::string& filePath);
+		explicit OpenGLShader(const std::string& filePath);
 		OpenGLShader(std::string name, const std::string& vertexSrc, const std::string& fragmentSrc);
 
 		OpenGLShader(const OpenGLShader&) = delete;
@@ -46,7 +46,7 @@ namespace Rise
 		std::unordered_map<GLenum, std::string> PreProcess(const std::string& source);
 		void Compile(const std::unordered_map<GLenum, std::string>& shaderSources);
 
-		uint32_t m_RendererID;
+		uint32_t m_RendererID{};
 		std::string m_Name;
 	};
 }

@@ -3,7 +3,6 @@
 #include <Rise/Core/EntryPoint.h>
 // --------------------------
 
-#include "ExampleLayer.h"
 #include "Sandbox2D.h"
 
 class Sandbox final : public Rise::Application

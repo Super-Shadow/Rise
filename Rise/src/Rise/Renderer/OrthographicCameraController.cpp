@@ -17,30 +17,30 @@ namespace Rise
 
 		if (Input::IsKeyPressed(RS_KEY_W))
 		{
-			m_CameraPosition.y += m_CameraTranslationSpeed * timestep;
+			m_CameraPosition.y += m_CameraTranslationSpeed * static_cast<float>(timestep);
 		}
 		if (Input::IsKeyPressed(RS_KEY_S))
 		{
-			m_CameraPosition.y -= m_CameraTranslationSpeed * timestep;
+			m_CameraPosition.y -= m_CameraTranslationSpeed * static_cast<float>(timestep);
 		}
 		if (Input::IsKeyPressed(RS_KEY_A))
 		{
-			m_CameraPosition.x -= m_CameraTranslationSpeed * timestep;
+			m_CameraPosition.x -= m_CameraTranslationSpeed * static_cast<float>(timestep);
 		}
 		if (Input::IsKeyPressed(RS_KEY_D))
 		{
-			m_CameraPosition.x += m_CameraTranslationSpeed * timestep;
+			m_CameraPosition.x += m_CameraTranslationSpeed * static_cast<float>(timestep);
 		}
 
 		if (m_Rotation)
 		{
 			if (Input::IsKeyPressed(RS_KEY_Q))
 			{
-				m_CameraRotation += m_CameraRotationSpeed * timestep;
+				m_CameraRotation += m_CameraRotationSpeed * static_cast<float>(timestep);
 			}
 			if (Input::IsKeyPressed(RS_KEY_E))
 			{
-				m_CameraRotation -= m_CameraRotationSpeed * timestep;
+				m_CameraRotation -= m_CameraRotationSpeed * static_cast<float>(timestep);
 			}
 
 			m_Camera.SetRotation(m_CameraRotation);

@@ -17,7 +17,7 @@ public:
 	void OnAttach() override;
 	void OnDetach() override;
 
-	void OnUpdate(const Rise::TimeStep timeStep) override;
+	void OnUpdate(Rise::TimeStep timeStep) override;
 	void OnImGuiRender() override;
 	void OnEvent(Rise::Event & e) override;
 private:

@@ -87,21 +87,21 @@ namespace Rise
 		void WriteProfile(const ProfileResult& result)
 		{
 			std::ostringstream json;
-
+			
 			std::string name = result.Name;
 			std::ranges::replace(name, '"', '\'');
-
+			
 			json << std::setprecision(3) << std::fixed;
 			json << ", {";
 			json << R"("cat":"function",)";
-			json << R"("dur":)" << (result.ElapsedTime.count()) << ',';
+			json << R"("dur":)" << result.ElapsedTime.count() << ',';
 			json << R"("name":")" << name << R"(",)";
 			json << R"("ph":"X",)";
 			json << R"("pid":0,)";
 			json << R"("tid":)" << result.ThreadID << ",";
 			json << R"("ts":)" << result.Start.count();
 			json << '}';
-
+			
 			std::lock_guard guard(m_Mutex);
 			if (m_CurrentSession)
 			{
@@ -143,7 +143,7 @@ namespace Rise
 	class InstrumentationTimer
 	{
 	public:
-		InstrumentationTimer(const char* name) : m_Name(name), m_Stopped(false)
+		explicit InstrumentationTimer(const char* name) : m_Name(name), m_Stopped(false)
 		{
 			m_StartTimepoint = std::chrono::steady_clock::now();
 		}
@@ -162,14 +162,11 @@ namespace Rise
 
 		void Stop()
 		{
-
 			const auto endTimepoint = std::chrono::steady_clock::now();
-
 			const auto start = std::chrono::duration<double, std::micro>{ m_StartTimepoint.time_since_epoch() };
 			const auto elapsedTime = std::chrono::time_point_cast<std::chrono::microseconds>(endTimepoint).time_since_epoch() - std::chrono::time_point_cast<std::chrono::microseconds>(m_StartTimepoint).time_since_epoch();
 
 			Instrumentor::Get().WriteProfile({ m_Name, start, elapsedTime, std::this_thread::get_id() });
-
 			m_Stopped = true;
 		}
 	private:
