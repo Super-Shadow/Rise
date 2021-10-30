@@ -13,7 +13,7 @@ namespace Rise
 		static void SetClearColour(const glm::vec4& colour) { s_RendererAPI->SetClearColour(colour); }
 		static void Clear() { s_RendererAPI->Clear(); }
 
-		static void DrawIndexed(const Ref<VertexArray>& vertexArray) { s_RendererAPI->DrawIndexed(vertexArray); }
+		static void DrawIndexed(const Ref<VertexArray>& vertexArray, const std::size_t indexCount = 0) { s_RendererAPI->DrawIndexed(vertexArray, indexCount); }
 	private:
 		static Scope<RendererAPI> s_RendererAPI;
 	};

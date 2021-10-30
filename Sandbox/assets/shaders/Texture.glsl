@@ -4,17 +4,25 @@
 #version 460 core
 
 layout(location = 0) in vec3 a_Position;
-layout(location = 1) in vec2 a_TexCoord;
+layout(location = 1) in vec4 a_Colour;
+layout(location = 2) in vec2 a_TexCoord;
+layout(location = 3) in float a_TexIndex;
+layout(location = 4) in float a_TilingFactor;
 
 uniform mat4 u_ViewProjection;
-uniform mat4 u_Transform;
 
+out vec4 v_Colour;
 out vec2 v_TexCoord;
+out float v_TexIndex;
+out float v_TilingFactor;
 
 void main()
 {
+	v_Colour = a_Colour;
 	v_TexCoord = a_TexCoord;
-	gl_Position = u_ViewProjection * u_Transform * vec4(a_Position, 1.0);
+	v_TexIndex = a_TexIndex;
+	v_TilingFactor = a_TilingFactor;
+	gl_Position = u_ViewProjection * vec4(a_Position, 1.0);
 }
 
 #type fragment
@@ -22,14 +30,17 @@ void main()
 
 layout(location = 0) out vec4 colour;
 
+in vec4 v_Colour;
 in vec2 v_TexCoord;
+in float v_TexIndex;
+in float v_TilingFactor;
 
-uniform sampler2D u_Texture;
-uniform float u_TexScale = 1.0;
-uniform vec4 u_Colour;
+uniform sampler2D u_Textures[32]; // 32 max texture slots
+//uniform float u_TexScale = 1.0;
+//uniform vec4 u_Colour;
 
 void main()
 {
-	colour = texture(u_Texture, v_TexCoord * u_TexScale) * u_Colour;
-	//colour = vec4(v_TexCoord, 0.0, 1.0);
+	colour = texture(u_Textures[int(v_TexIndex)], v_TexCoord * v_TilingFactor) * v_Colour;
+	//colour = v_Colour;
 }

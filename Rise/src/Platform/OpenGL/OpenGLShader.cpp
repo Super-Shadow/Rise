@@ -226,6 +226,13 @@ namespace Rise
 		UploadUniformInt(name, value);
 	}
 
+	void OpenGLShader::SetIntArray(const std::string& name, const int* values, const int count) const
+	{
+		RS_PROFILE_FUNCTION();
+
+		UploadUniformIntArray(name, values, count);
+	}
+
 	void OpenGLShader::SetFloat(const std::string& name, const float value) const
 	{
 		RS_PROFILE_FUNCTION();
@@ -261,6 +268,15 @@ namespace Rise
 			RS_CORE_ERROR("{0} shader unable to locate uniform int named {1}.", m_Name, name);
 
 		glUniform1i(location, value);
+	}
+
+	void OpenGLShader::UploadUniformIntArray(const std::string& name, const int* values, const int count) const
+	{
+		const auto location = glGetUniformLocation(m_RendererID, name.c_str());
+		if (location < 0)
+			RS_CORE_ERROR("{0} shader unable to locate uniform int array named {1}.", m_Name, name);
+
+		glUniform1iv(location, count, values);
 	}
 
 	void OpenGLShader::UploadUniformFloat(const std::string& name, const float value) const
@@ -316,7 +332,7 @@ namespace Rise
 			RS_CORE_ERROR("{0} shader unable to locate uniform mat4 named {1}.", m_Name, name);
 
 		// count means how many matrices are we giving, so we put 1. If we used DirectX maths (column-major order) we would need to say GL_TRUE for auto transpose to OpenGL maths (row-major order).
-		glUniformMatrix4fv(location, 1, GL_FALSE, value_ptr(matrix)); // f means float and v means an array as it is 16 floats
+		glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(matrix)); // f means float and v means an array as it is 16 floats
 	}
 
 }

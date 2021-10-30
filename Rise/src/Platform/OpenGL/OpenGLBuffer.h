@@ -6,6 +6,7 @@ namespace Rise
 	class OpenGLVertexBuffer final : public VertexBuffer
 	{
 	public:
+		explicit OpenGLVertexBuffer(std::size_t size);
 		OpenGLVertexBuffer(const float* vertices, std::size_t size);
 
 		OpenGLVertexBuffer(const OpenGLVertexBuffer&) = delete;
@@ -21,6 +22,8 @@ namespace Rise
 
 		[[nodiscard]] const BufferLayout& GetLayout() const override { return m_Layout; }
 		void SetLayout(const BufferLayout& layout) override { m_Layout = layout; }
+
+		void SetData(const void* quadVertex, size_t size) override;
 
 	private:
 		uint32_t m_RendererID{};

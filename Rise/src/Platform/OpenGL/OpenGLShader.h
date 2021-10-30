@@ -25,6 +25,7 @@ namespace Rise
 		void Unbind() const override;
 
 		void SetInt(const std::string& name, int value) const override;
+		void SetIntArray(const std::string& name, const int* values, int count) const override;
 		void SetFloat(const std::string& name, float value) const override;
 		void SetFloat3(const std::string& name, const glm::vec3& value) const override;
 		void SetFloat4(const std::string& name, const glm::vec4& value) const override;
@@ -33,6 +34,7 @@ namespace Rise
 		[[nodiscard]] const std::string& GetName() const override { return m_Name; }
 
 		void UploadUniformInt(const std::string& name, int value) const;
+		void UploadUniformIntArray(const std::string& name, const int* values, int count) const;
 
 		void UploadUniformFloat(const std::string& name, float value) const;
 		void UploadUniformFloat2(const std::string& name, const glm::vec2& values) const;

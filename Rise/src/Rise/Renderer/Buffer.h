@@ -151,6 +151,9 @@ namespace Rise
 		[[nodiscard]] virtual const BufferLayout& GetLayout() const abstract;
 		virtual void SetLayout(const BufferLayout& layout) abstract;
 
+		virtual void SetData(const void* quadVertex, size_t size) abstract;
+
+		static Ref<VertexBuffer> Create(std::size_t size);
 		static Ref<VertexBuffer> Create(const float* vertices, std::size_t size);
 
 	protected:

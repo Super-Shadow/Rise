@@ -22,6 +22,9 @@ namespace Rise
 		virtual void SetData(void* data, std::size_t size) abstract;
 
 		virtual void Bind(uint32_t slot = 0) const abstract;
+
+		virtual bool operator==(const Texture& other) const abstract;
+
 	protected:
 		Texture() = default;
 	};
@@ -31,6 +34,5 @@ namespace Rise
 	public:
 		static Ref<Texture2D> Create(int width, int height);
 		static Ref<Texture2D> Create(const std::string& path);
-
 	};
 }

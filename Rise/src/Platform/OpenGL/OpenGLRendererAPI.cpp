@@ -75,9 +75,10 @@ namespace Rise
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	}
 
-	void OpenGLRendererAPI::DrawIndexed(const Ref<VertexArray>& vertexArray)
+	void OpenGLRendererAPI::DrawIndexed(const Ref<VertexArray>& vertexArray, const std::size_t indexCount)
 	{
-		glDrawElements(GL_TRIANGLES, static_cast<int>(vertexArray->GetIndexBuffer()->GetCount()), GL_UNSIGNED_INT, nullptr); // Can pass nullptr for indices as they are tied to the same glGenBuffers(1, ...) so it just is automatically linked.
+		const std::size_t count = indexCount ? indexCount : vertexArray->GetIndexBuffer()->GetCount(); // TODO: Change this whole thing to an int to remove unsinged to signed cast, though this API will be obsolete in favour of vulcan or directx12
+		glDrawElements(GL_TRIANGLES, static_cast<int>(count), GL_UNSIGNED_INT, nullptr); // Can pass nullptr for indices as they are tied to the same glGenBuffers(1, ...) so it just is automatically linked.
 		glBindTexture(GL_TEXTURE_2D, 0);
 	}
 }

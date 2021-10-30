@@ -29,7 +29,7 @@ namespace Rise
 		virtual void SetClearColour(const glm::vec4& colour) abstract;
 		virtual void Clear() abstract;
 
-		virtual void DrawIndexed(const Ref<VertexArray>& vertexArray) abstract;
+		virtual void DrawIndexed(const Ref<VertexArray>& vertexArray, std::size_t indexCount = 0) abstract;
 
 		static API GetAPI() { return s_API; }
 		static Scope<RendererAPI> Create();
