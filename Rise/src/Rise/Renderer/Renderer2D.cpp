@@ -20,9 +20,9 @@ namespace Rise
 
 	struct Renderer2DData
 	{
-		const uint32_t MaxQuads{10000};
-		const uint32_t MaxVertices{MaxQuads * 4};
-		const uint32_t MaxIndices{MaxQuads * 6}; // Since it needs to be a triangle, a square has 6 points to make it into a triangle. Diagonal line through square.
+		static constexpr uint32_t MaxQuads{20000};
+		static constexpr uint32_t MaxVertices{MaxQuads * 4};
+		static constexpr uint32_t MaxIndices{MaxQuads * 6}; // Since it needs to be a triangle, a square has 6 points to make it into a triangle. Diagonal line through square.
 		static constexpr int MaxTextureSlots{32};
 		static constexpr glm::vec2 QuadTexCoords[] = { { .0f, .0f }, { 1.f, .0f }, { 1.f, 1.f }, { .0f, 1.f } }; 
 
@@ -39,6 +39,8 @@ namespace Rise
 		int TextureSlotIndex{1}; // 0 reserved for white texture
 
 		glm::vec4 QuadVertexPositions[4];
+
+		Renderer2D::Statistics Stats;
 	};
 
 	static Renderer2DData s_Data;
@@ -141,10 +143,26 @@ namespace Rise
 			s_Data.TextureSlots[i]->Bind(i);
 		}
 		RenderCommand::DrawIndexed(s_Data.QuadVertexArray, s_Data.QuadIndexCount);
+		s_Data.Stats.DrawCalls++;
 	}
 
-	void ConstructQuadData(const glm::vec3& position, const float rotation /*Radians*/, const glm::vec2& size, const float textureIndex, const float textureScale, const glm::vec4& colour)
+	void Renderer2D::FlushAndReset() // TODO: HACK HACK! ... maybe repeated code from Begin() since we dont need to rebind idk just take out endscene so i call this at end of beigin scene or smth lol.
 	{
+		EndScene();
+
+		s_Data.QuadIndexCount = 0;
+		s_Data.QuadVertexBufferPtr = s_Data.QuadVertexBufferBase;
+
+		s_Data.TextureSlotIndex = 1;
+	}
+
+	void Renderer2D::ConstructQuadData(const glm::vec3& position, const float rotation /*Radians*/, const glm::vec2& size, const float textureIndex, const float textureScale, const glm::vec4& colour)
+	{
+		if(s_Data.QuadIndexCount >= Renderer2DData::MaxIndices)
+		{
+			FlushAndReset();
+		}
+
 		glm::mat4 transform;
 		if (rotation != 0.f) // Rotation costs alot, if not needed don't do it!.
 		{
@@ -166,6 +184,8 @@ namespace Rise
 		}
 
 		s_Data.QuadIndexCount += 6;
+
+		s_Data.Stats.QuadCount++;
 	}
 
 	void Renderer2D::DrawQuad(const glm::vec2& position, const glm::vec2& size, const glm::vec4& colour)
@@ -219,7 +239,6 @@ namespace Rise
 		DrawQuad({ position.x, position.y, position.z }, 0.f, size, texture, texScale, tintColour);
 	}
 
-
 	void Renderer2D::DrawQuad(const glm::vec2& position, const float rotation, const glm::vec2& size, const Ref<Texture2D>& texture, const float texScale, const glm::vec4& tintColour)
 	{
 		DrawQuad({ position.x, position.y, 0.f }, rotation, size, texture, texScale, tintColour);
@@ -251,5 +270,13 @@ namespace Rise
 		ConstructQuadData(position, rotation, size, textureIndex, texScale, tintColour);
 	}
 
+	Renderer2D::Statistics& Renderer2D::GetStats()
+	{
+		return s_Data.Stats;
+	}
 
+	void Renderer2D::ResetStats()
+	{
+		s_Data.Stats = {};
+	}
 }
