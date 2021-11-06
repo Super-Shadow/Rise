@@ -2,7 +2,7 @@
 #include "Application.h"
 
 #include "Rise/Core/TimeStep.h"
-#include "GLFW/glfw3.h"
+#include <GLFW/glfw3.h>
 #include "Rise/Renderer/Renderer.h"
 
 #include <ranges>

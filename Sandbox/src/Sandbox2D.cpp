@@ -51,7 +51,7 @@ void Sandbox2D::OnUpdate(const Rise::TimeStep timeStep)
 		rotation += static_cast<float>(timeStep) * 50.f;
 		Rise::Renderer2D::DrawQuad({ 0.f, 1.f }, glm::radians(-45.f), { .8f, .8f }, { 0.8f, 0.2f, 0.3f, 1.f });
 		Rise::Renderer2D::DrawQuad({ -1.f, 0.f }, { .8f, .8f }, { 0.8f, 0.2f, 0.3f, 1.f });
-		Rise::Renderer2D::DrawQuad({ .5f, -0.5f }, { .5f, .75f }, { 0.2f, 0.3f, 0.8f, 1.f });
+		Rise::Renderer2D::DrawQuad({ .5f, -0.5f }, { .5f, .75f }, m_SquareColour);
 		Rise::Renderer2D::DrawQuad({0.f, 0.f, -.1f}, { 20.5f, 20.5f }, m_CheckerBoardTexture, 10, glm::vec4(1.f, .9f, .9f, 1.f));
 		Rise::Renderer2D::DrawQuad({ 0.f, 0.f, 0.1f }, glm::radians(rotation), { 1.f, 1.f }, m_CheckerBoardTexture);
 

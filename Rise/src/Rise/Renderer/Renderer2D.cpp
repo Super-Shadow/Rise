@@ -38,7 +38,7 @@ namespace Rise
 		std::array<Ref<Texture2D>, MaxTextureSlots> TextureSlots{};
 		int TextureSlotIndex{1}; // 0 reserved for white texture
 
-		glm::vec4 QuadVertexPositions[4];
+		glm::vec4 QuadVertexPositions[4]{};
 
 		Renderer2D::Statistics Stats;
 	};
@@ -129,9 +129,9 @@ namespace Rise
 	{
 		RS_PROFILE_FUNCTION();
 
-		const std::size_t dataSize = reinterpret_cast<uint8_t*>(s_Data.QuadVertexBufferPtr) - reinterpret_cast<uint8_t*>(s_Data.QuadVertexBufferBase);
+		const std::size_t quadVertexBufferDataSize = reinterpret_cast<uint8_t*>(s_Data.QuadVertexBufferPtr) - reinterpret_cast<uint8_t*>(s_Data.QuadVertexBufferBase); // We substract uint8_t* pointers to know the dataSize in bytes. (how much more data we have compared to a blank quadvertexbuffer)
 
-		s_Data.QuadVertexBuffer->SetData(s_Data.QuadVertexBufferBase, dataSize);
+		s_Data.QuadVertexBuffer->SetData(s_Data.QuadVertexBufferBase, quadVertexBufferDataSize);
 
 		Flush();
 	}
@@ -262,6 +262,9 @@ namespace Rise
 
 		if (textureIndex == 0)
 		{
+			if (s_Data.TextureSlotIndex >= Renderer2DData::MaxTextureSlots)
+				FlushAndReset();
+
 			textureIndex = static_cast<float>(s_Data.TextureSlotIndex);
 			s_Data.TextureSlots[s_Data.TextureSlotIndex] = texture;
 			s_Data.TextureSlotIndex++;

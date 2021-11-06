@@ -77,9 +77,9 @@ namespace Rise
 				case ShaderDataType::Float4:
 					return 4;
 				case ShaderDataType::Mat3:
-					return 3 * 3;
+					return 3; // Was 3 * 3 and should be, but OpenGL only supports size from 1-4
 				case ShaderDataType::Mat4:
-					return 4 * 4;
+					return 4; // Was 4 * 4 and should be, but OpenGL only supports size from 1-4
 				case ShaderDataType::Int:
 					return 1;
 				case ShaderDataType::Int2:
