@@ -4,7 +4,7 @@
 
 #include "rspch.h"
 
-#include "Rise/Core/Core.h"
+#include "Rise/Core/Base.h"
 #include "Rise/Events/Event.h"
 
 namespace Rise

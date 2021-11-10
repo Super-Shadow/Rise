@@ -87,7 +87,7 @@
     <ClInclude Include="src\Rise\Core\Application.h">
       <Filter>src\Rise\Core</Filter>
     </ClInclude>
-    <ClInclude Include="src\Rise\Core\Core.h">
+    <ClInclude Include="src\Rise\Core\Base.h">
       <Filter>src\Rise\Core</Filter>
     </ClInclude>
     <ClInclude Include="src\Rise\Core\EntryPoint.h">

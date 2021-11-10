@@ -19,6 +19,7 @@ namespace Rise
 
 		void OnAttach() override;
 		void OnDetach() override;
+		void OnEvent(Event& e) override;
 
 		void Begin();
 		void End();

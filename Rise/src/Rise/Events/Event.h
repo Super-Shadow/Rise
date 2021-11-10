@@ -1,7 +1,7 @@
 #pragma once
 
 #include "rspch.h"
-#include "Rise/Core/Core.h"
+#include "Rise/Core/Base.h"
 
 namespace Rise
 {

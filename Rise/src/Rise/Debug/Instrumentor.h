@@ -87,15 +87,12 @@ namespace Rise
 		void WriteProfile(const ProfileResult& result)
 		{
 			std::ostringstream json;
-			
-			std::string name = result.Name;
-			std::ranges::replace(name, '"', '\'');
-			
+
 			json << std::setprecision(3) << std::fixed;
 			json << ", {";
 			json << R"("cat":"function",)";
 			json << R"("dur":)" << result.ElapsedTime.count() << ',';
-			json << R"("name":")" << name << R"(",)";
+			json << R"("name":")" << result.Name << R"(",)";
 			json << R"("ph":"X",)";
 			json << R"("pid":0,)";
 			json << R"("tid":)" << result.ThreadID << ",";
@@ -174,13 +171,44 @@ namespace Rise
 		std::chrono::time_point<std::chrono::steady_clock> m_StartTimepoint;
 		bool m_Stopped;
 	};
+
+	namespace InstrumentorUtils // https://stackoverflow.com/questions/59532907/how-to-remove-a-substring-from-a-string-view-at-compile-time - More info on this!
+	{
+		template <size_t N>
+		struct ChangeResult // Needed to allocate a char array and return it inside a struct as it would point to some existing, contiguous block of data (stack)
+		{
+			char Data[N];
+		};
+
+		template <size_t N, size_t K> // Grabs the array size of the strings passed
+		constexpr auto CleanupOutputString(const char(&expr)[N], const char(&remove)[K])
+		{
+			ChangeResult<N> result = {};
+
+			size_t srcIndex = 0;
+			size_t dstIndex = 0;
+			while (srcIndex < N)
+			{
+				size_t matchIndex = 0;
+				while (matchIndex < K - 1 && srcIndex + matchIndex < N - 1 && expr[srcIndex + matchIndex] == remove[matchIndex])
+				{
+					matchIndex++;
+				}
+				if (matchIndex == K - 1)
+				{
+					srcIndex += matchIndex;
+				}
+				result.Data[dstIndex++] = expr[srcIndex] == '"' ? '\'' : expr[srcIndex];
+				srcIndex++;
+			}
+			return result;
+		}
+	}
 }
 
-#define RS_PROFILE 0
+#define RS_PROFILE 1
 #if RS_PROFILE
-	// Resolve which function signature macro will be used. Note that this only
-	// is resolved when the (pre)compiler starts, so the syntax highlighting
-	// could mark the wrong one in your editor!
+	// Resolve which function signature macro will be used.
 	#if defined(__GNUC__) || (defined(__MWERKS__) && (__MWERKS__ >= 0x3000)) || (defined(__ICC) && (__ICC >= 600)) || defined(__ghs__)
 		#define RS_FUNC_SIG __PRETTY_FUNCTION__
 	#elif defined(__DMC__) && (__DMC__ >= 0x810)
@@ -201,7 +229,7 @@ namespace Rise
 
 	#define RS_PROFILE_BEGIN_SESSION(name, filepath) ::Rise::Instrumentor::Get().BeginSession(name, filepath)
 	#define RS_PROFILE_END_SESSION() ::Rise::Instrumentor::Get().EndSession()
-	#define RS_PROFILE_SCOPE(name) ::Rise::InstrumentationTimer timer##__LINE__(name);
+	#define RS_PROFILE_SCOPE(name) constexpr auto fixedName = ::Rise::InstrumentorUtils::CleanupOutputString(name, "__cdecl "); ::Rise::InstrumentationTimer timer##__LINE__(fixedName.Data)
 	#define RS_PROFILE_FUNCTION() RS_PROFILE_SCOPE(RS_FUNC_SIG)
 #else
 	#define RS_PROFILE_BEGIN_SESSION(name, filepath)

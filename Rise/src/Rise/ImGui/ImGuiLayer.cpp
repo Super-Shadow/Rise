@@ -66,6 +66,16 @@ namespace Rise
 		ImGui::DestroyContext();
 	}
 
+	void ImGuiLayer::OnEvent(Event& e)
+	{
+		const auto& io = ImGui::GetIO();
+		e.m_Handled = e.m_Handled || e.IsInCategory(EventCategoryMouse) && io.WantCaptureMouse;
+		e.m_Handled = e.m_Handled || e.IsInCategory(EventCategoryKeyboard) && io.WantCaptureKeyboard;
+		/* Bit wise version, no apparent performance increase, just looks more epic due to bit-wise but not needed.
+		e.m_Handled |= e.IsInCategory(EventCategoryMouse) & io.WantCaptureMouse;
+		e.m_Handled |= e.IsInCategory(EventCategoryKeyboard) & io.WantCaptureKeyboard;*/
+	}
+
 	void ImGuiLayer::Begin()
 	{
 		RS_PROFILE_FUNCTION();

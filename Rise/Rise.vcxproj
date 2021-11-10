@@ -161,7 +161,7 @@
     <ClInclude Include="src\Platform\Windows\WindowsWindow.h" />
     <ClInclude Include="src\Rise.h" />
     <ClInclude Include="src\Rise\Core\Application.h" />
-    <ClInclude Include="src\Rise\Core\Core.h" />
+    <ClInclude Include="src\Rise\Core\Base.h" />
     <ClInclude Include="src\Rise\Core\EntryPoint.h" />
     <ClInclude Include="src\Rise\Core\Input.h" />
     <ClInclude Include="src\Rise\Core\KeyCodes.h" />

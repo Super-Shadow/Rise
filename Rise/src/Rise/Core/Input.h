@@ -2,7 +2,7 @@
 
 #include "KeyCodes.h"
 #include "MouseCodes.h"
-#include "Rise/Core/Core.h"
+#include "Rise/Core/Base.h"
 
 namespace Rise
 {

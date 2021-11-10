@@ -86,9 +86,9 @@ namespace Rise
 
 		for (const auto& it : std::ranges::reverse_view(m_LayerStack))
 		{
-			it->OnEvent(e);
 			if (e.m_Handled)
 				break;
+			it->OnEvent(e);
 		}
 	}
 

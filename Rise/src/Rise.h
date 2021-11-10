@@ -2,7 +2,7 @@
 
 // For use by Rise applications
 
-#include "Rise/Core/Core.h"
+#include "Rise/Core/Base.h"
 
 #include "Rise/Core/Application.h"
 #include "Rise/Core/Layer.h"
