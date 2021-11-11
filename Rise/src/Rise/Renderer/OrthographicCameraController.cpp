@@ -6,41 +6,38 @@
 
 namespace Rise
 {
-	OrthographicCameraController::OrthographicCameraController(const float aspectRatio, const bool bRotation) : m_AspectRatio(aspectRatio), m_Camera(-m_AspectRatio * m_ZoomLevel, m_AspectRatio * m_ZoomLevel, -m_ZoomLevel, m_ZoomLevel), m_Rotation(bRotation)
-	{
-		
-	}
+	OrthographicCameraController::OrthographicCameraController(const float aspectRatio, const bool bRotation) : m_AspectRatio(aspectRatio), m_Bounds(-m_AspectRatio * m_ZoomLevel, m_AspectRatio * m_ZoomLevel, -m_ZoomLevel, m_ZoomLevel), m_Camera(m_Bounds.Left, m_Bounds.Right, m_Bounds.Bottom, m_Bounds.Top), m_Rotation(bRotation) {}
 
-	void OrthographicCameraController::OnUpdate(const TimeStep timestep)
+	void OrthographicCameraController::OnUpdate(const TimeStep timeStep)
 	{
 		RS_PROFILE_FUNCTION();
 
 		if (Input::IsKeyPressed(RS_KEY_W))
 		{
-			m_CameraPosition.y += m_CameraTranslationSpeed * static_cast<float>(timestep);
+			m_CameraPosition.y += m_CameraTranslationSpeed * static_cast<float>(timeStep);
 		}
 		if (Input::IsKeyPressed(RS_KEY_S))
 		{
-			m_CameraPosition.y -= m_CameraTranslationSpeed * static_cast<float>(timestep);
+			m_CameraPosition.y -= m_CameraTranslationSpeed * static_cast<float>(timeStep);
 		}
 		if (Input::IsKeyPressed(RS_KEY_A))
 		{
-			m_CameraPosition.x -= m_CameraTranslationSpeed * static_cast<float>(timestep);
+			m_CameraPosition.x -= m_CameraTranslationSpeed * static_cast<float>(timeStep);
 		}
 		if (Input::IsKeyPressed(RS_KEY_D))
 		{
-			m_CameraPosition.x += m_CameraTranslationSpeed * static_cast<float>(timestep);
+			m_CameraPosition.x += m_CameraTranslationSpeed * static_cast<float>(timeStep);
 		}
 
 		if (m_Rotation)
 		{
 			if (Input::IsKeyPressed(RS_KEY_Q))
 			{
-				m_CameraRotation += m_CameraRotationSpeed * static_cast<float>(timestep);
+				m_CameraRotation += m_CameraRotationSpeed * static_cast<float>(timeStep);
 			}
 			if (Input::IsKeyPressed(RS_KEY_E))
 			{
-				m_CameraRotation -= m_CameraRotationSpeed * static_cast<float>(timestep);
+				m_CameraRotation -= m_CameraRotationSpeed * static_cast<float>(timeStep);
 			}
 
 			m_Camera.SetRotation(m_CameraRotation);
@@ -65,13 +62,19 @@ namespace Rise
 		dispatcher.Dispatch<WindowResizeEvent>(RS_BIND_EVENT_FN(OrthographicCameraController::OnWindowResized));
 	}
 
+	void OrthographicCameraController::CalculateView()
+	{
+		m_Bounds = { -m_AspectRatio * m_ZoomLevel, m_AspectRatio * m_ZoomLevel, -m_ZoomLevel, m_ZoomLevel };
+		m_Camera.SetProjection(m_Bounds.Left, m_Bounds.Right, m_Bounds.Bottom, m_Bounds.Top);
+	}
+
 	bool OrthographicCameraController::OnMouseScrolled(const MouseScrolledEvent& e)
 	{
 		RS_PROFILE_FUNCTION();
 
 		m_ZoomLevel -= e.GetYOffset() * 0.25f;
 		m_ZoomLevel = std::max(m_ZoomLevel, 0.1f);
-		m_Camera.SetProjection(-m_AspectRatio * m_ZoomLevel, m_AspectRatio * m_ZoomLevel, -m_ZoomLevel, m_ZoomLevel);
+		CalculateView();
 
 		return false;
 	}
@@ -81,7 +84,7 @@ namespace Rise
 		RS_PROFILE_FUNCTION();
 
 		m_AspectRatio = static_cast<float>(e.GetWidth()) / static_cast<float>(e.GetHeight());
-		m_Camera.SetProjection(-m_AspectRatio * m_ZoomLevel, m_AspectRatio * m_ZoomLevel, -m_ZoomLevel, m_ZoomLevel);
+		CalculateView();
 
 		return false;
 	}

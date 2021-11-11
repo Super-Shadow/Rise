@@ -1,4 +1,5 @@
 #pragma once
+#include "ParticleSystem.h"
 #include "Rise.h"
 
 class Sandbox2D final : public Rise::Layer

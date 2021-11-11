@@ -1,5 +1,6 @@
 #pragma once
 #include "OrthographicCamera.h"
+#include "SubTexture2D.h"
 #include "Texture.h"
 
 namespace Rise
@@ -24,23 +25,43 @@ namespace Rise
 
 		static void FlushAndReset();
 
+		static void ConstructQuadData(const glm::vec3& position, float rotation /*Radians*/, const glm::vec2& size, float textureIndex, const glm::vec2 textureCoords[], float textureScale, const glm::vec4& colour);
+
 		// Primitives
-		static void ConstructQuadData(const glm::vec3& position, const float rotation /*Radians*/, const glm::vec2& size, const float textureIndex, const float textureScale, const glm::vec4& colour);
+		struct DrawQuadParams
+		{
+			glm::vec3 position{0.f};
+			float rotation{0.f};
+			glm::vec2 size{1.f};
+			float textureScale{1.f};
+			glm::vec4 tintColour{ 1.f, 1.f, 1.f, 1.f };
+		};
 
-		static void DrawQuad(const glm::vec2& position, const glm::vec2& size, const glm::vec4& colour);
-		static void DrawQuad(const glm::vec3& position, const glm::vec2& size, const glm::vec4& colour);
-		static void DrawQuad(const glm::vec2& position, float rotation, const glm::vec2& size, const glm::vec4& colour);
-		static void DrawQuad(const glm::vec3& position, float rotation, const glm::vec2& size, const glm::vec4& colour);
+		struct DrawTexturedQuadParams
+		{
+			glm::vec3 position{ 0.f };
+			float rotation{ 0.f };
+			glm::vec2 size{ 1.f };
+			Ref<Texture2D> texture = nullptr;
+			float textureScale{ 1.f };
+			glm::vec4 tintColour{ 1.f, 1.f, 1.f, 1.f };
+		};
 
-		static void DrawQuad(const glm::vec2& position, const glm::vec2& size, const Ref<Texture2D>& texture);
-		static void DrawQuad(const glm::vec3& position, const glm::vec2& size, const Ref<Texture2D>& texture);
-		static void DrawQuad(const glm::vec2& position, float rotation, const glm::vec2& size, const Ref<Texture2D>& texture);
-		static void DrawQuad(const glm::vec3& position, float rotation, const glm::vec2& size, const Ref<Texture2D>& texture);
+		static void DrawQuad(const DrawQuadParams&& params); // Use && to move by R(ight)-value to encourage users to use aggregate initialisation and maybe more performant that just by copy?
+		static void DrawTexturedQuad(const DrawTexturedQuadParams&& params);
 
-		static void DrawQuad(const glm::vec2& position, const glm::vec2& size, const Ref<Texture2D>& texture, float texScale, const glm::vec4& tintColour = {1.f, 1.f, 1.f, 1.f});
-		static void DrawQuad(const glm::vec3& position, const glm::vec2& size, const Ref<Texture2D>& texture, float texScale, const glm::vec4& tintColour = { 1.f, 1.f, 1.f, 1.f });
-		static void DrawQuad(const glm::vec2& position, float rotation, const glm::vec2& size, const Ref<Texture2D>& texture, float texScale, const glm::vec4& tintColour = { 1.f, 1.f, 1.f, 1.f });
-		static void DrawQuad(const glm::vec3& position, float rotation, const glm::vec2& size, const Ref<Texture2D>& texture, float texScale, const glm::vec4& tintColour = { 1.f, 1.f, 1.f, 1.f });
+		struct DrawSubTexQuadParams
+		{
+			glm::vec3 position{ 0.f };
+			float rotation{ 0.f };
+			glm::vec2 size{ 1.f };
+			Ref<SubTexture2D> subTexture = nullptr;
+			float textureScale{ 1.f };
+			glm::vec4 tintColour{ 1.f, 1.f, 1.f, 1.f };
+		};
+		static void DrawSubTexturedQuad(const DrawSubTexQuadParams&& params);
+
+		static float BatchTexture(const Ref<Texture2D>& texture);
 
 		struct Statistics
 		{

@@ -21,6 +21,7 @@ namespace Rise
 		[[nodiscard]] int GetWidth() const override { return m_Width; }
 		[[nodiscard]] int GetHeight() const override { return m_Height; }
 
+		void CreateTexture();
 		void SetData(void* data, std::size_t size) override;
 
 		void Bind(uint32_t slot = 0) const override;

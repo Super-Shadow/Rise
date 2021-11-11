@@ -30,9 +30,7 @@ void Sandbox2D::OnUpdate(const Rise::TimeStep timeStep)
 	// Update
 	m_CameraController.OnUpdate(timeStep);
 
-
 	// Render
-
 	Rise::Renderer2D::ResetStats();
 
 	{
@@ -49,11 +47,11 @@ void Sandbox2D::OnUpdate(const Rise::TimeStep timeStep)
 
 		static auto rotation = 0.f;
 		rotation += static_cast<float>(timeStep) * 50.f;
-		Rise::Renderer2D::DrawQuad({ 0.f, 1.f }, glm::radians(-45.f), { .8f, .8f }, { 0.8f, 0.2f, 0.3f, 1.f });
-		Rise::Renderer2D::DrawQuad({ -1.f, 0.f }, { .8f, .8f }, { 0.8f, 0.2f, 0.3f, 1.f });
-		Rise::Renderer2D::DrawQuad({ .5f, -0.5f }, { .5f, .75f }, m_SquareColour);
-		Rise::Renderer2D::DrawQuad({0.f, 0.f, -.1f}, { 20.5f, 20.5f }, m_CheckerBoardTexture, 10, glm::vec4(1.f, .9f, .9f, 1.f));
-		Rise::Renderer2D::DrawQuad({ 0.f, 0.f, 0.1f }, glm::radians(rotation), { 1.f, 1.f }, m_CheckerBoardTexture);
+		Rise::Renderer2D::DrawQuad({ .position{ 0.f, 1.f, 0.f }, .rotation = glm::radians(-45.f), .size{ .8f, .8f }, .tintColour{ 0.8f, 0.2f, 0.3f, 1.f } });
+		Rise::Renderer2D::DrawQuad({ .position{ -1.f, 0.f, 0.f }, .size{ .8f, .8f }, .tintColour{ 0.8f, 0.2f, 0.3f, 1.f } });
+		Rise::Renderer2D::DrawQuad({ .position{ .5f, -0.5f, 0.f }, .size{ .5f, .75f }, .tintColour{m_SquareColour} });
+		Rise::Renderer2D::DrawTexturedQuad({ .position{0.f, 0.f, -.1f}, .size{ 20.5f, 20.5f }, .texture{m_CheckerBoardTexture}, .textureScale = 10, .tintColour{glm::vec4(1.f, .9f, .9f, 1.f)} });
+		Rise::Renderer2D::DrawTexturedQuad({ .position{ 0.f, 0.f, 0.1f }, .rotation = glm::radians(rotation), .texture{m_CheckerBoardTexture} });
 
 		for (int i = -5; i < 5; i++)
 		{
@@ -62,11 +60,10 @@ void Sandbox2D::OnUpdate(const Rise::TimeStep timeStep)
 				auto x = static_cast<float>(i) / 2.f;
 				auto y = static_cast<float>(j) / 2.f;
 				glm::vec4 colour = { (x + 5.f) / 10.f, .4f, (y + 5.f) / 10.f, .7f };
-				Rise::Renderer2D::DrawQuad({ x, y }, { .45f, .45f }, colour);
+				Rise::Renderer2D::DrawQuad({ .position{ x, y, 0.f }, .size{ .45f, .45f }, .tintColour{colour} });
 			}
 		}
 		Rise::Renderer2D::EndScene();
-
 	}
 }
 

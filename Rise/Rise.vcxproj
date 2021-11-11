@@ -187,6 +187,7 @@
     <ClInclude Include="src\Rise\Renderer\Renderer2D.h" />
     <ClInclude Include="src\Rise\Renderer\RendererAPI.h" />
     <ClInclude Include="src\Rise\Renderer\Shader.h" />
+    <ClInclude Include="src\Rise\Renderer\SubTexture2D.h" />
     <ClInclude Include="src\Rise\Renderer\Texture.h" />
     <ClInclude Include="src\Rise\Renderer\VertexArray.h" />
     <ClInclude Include="src\rspch.h" />
@@ -633,6 +634,7 @@
     <ClCompile Include="src\Rise\Renderer\Renderer2D.cpp" />
     <ClCompile Include="src\Rise\Renderer\RendererAPI.cpp" />
     <ClCompile Include="src\Rise\Renderer\Shader.cpp" />
+    <ClCompile Include="src\Rise\Renderer\SubTexture2D.cpp" />
     <ClCompile Include="src\Rise\Renderer\Texture.cpp" />
     <ClCompile Include="src\Rise\Renderer\VertexArray.cpp" />
     <ClCompile Include="src\rspch.cpp">

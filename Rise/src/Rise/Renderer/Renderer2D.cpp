@@ -24,7 +24,7 @@ namespace Rise
 		static constexpr uint32_t MaxVertices{MaxQuads * 4};
 		static constexpr uint32_t MaxIndices{MaxQuads * 6}; // Since it needs to be a triangle, a square has 6 points to make it into a triangle. Diagonal line through square.
 		static constexpr int MaxTextureSlots{32};
-		static constexpr glm::vec2 QuadTexCoords[] = { { .0f, .0f }, { 1.f, .0f }, { 1.f, 1.f }, { .0f, 1.f } }; 
+		static constexpr glm::vec2 QuadTexCoords[] = { { .0f, .0f }, { 1.f, .0f }, { 1.f, 1.f }, { .0f, 1.f } };
 
 		Ref<VertexArray> QuadVertexArray;
 		Ref<VertexBuffer> QuadVertexBuffer;
@@ -161,7 +161,7 @@ namespace Rise
 		s_Data.TextureSlotIndex = 1;
 	}
 
-	void Renderer2D::ConstructQuadData(const glm::vec3& position, const float rotation /*Radians*/, const glm::vec2& size, const float textureIndex, const float textureScale, const glm::vec4& colour)
+	void Renderer2D::ConstructQuadData(const glm::vec3& position, const float rotation /*Radians*/, const glm::vec2& size, const float textureIndex, const glm::vec2 textureCoords[], const float textureScale, const glm::vec4& colour)
 	{
 		if(s_Data.QuadIndexCount >= Renderer2DData::MaxIndices)
 		{
@@ -182,7 +182,7 @@ namespace Rise
 		{
 			s_Data.QuadVertexBufferPtr->Position = transform * s_Data.QuadVertexPositions[i];
 			s_Data.QuadVertexBufferPtr->Colour = colour;
-			s_Data.QuadVertexBufferPtr->TexCoord = s_Data.QuadTexCoords[i];
+			s_Data.QuadVertexBufferPtr->TexCoord = textureCoords[i];
 			s_Data.QuadVertexBufferPtr->TexIndex = textureIndex;
 			s_Data.QuadVertexBufferPtr->TilingFactor = textureScale;
 			s_Data.QuadVertexBufferPtr++;
@@ -193,66 +193,39 @@ namespace Rise
 		s_Data.Stats.QuadCount++;
 	}
 
-	void Renderer2D::DrawQuad(const glm::vec2& position, const glm::vec2& size, const glm::vec4& colour)
-	{
-		DrawQuad({ position.x, position.y, 0.f }, size, colour);
-	}
-
-	void Renderer2D::DrawQuad(const glm::vec3& position, const glm::vec2& size, const glm::vec4& colour)
-	{
-		DrawQuad(position, 0.f, size, colour);
-	}
-
-	void Renderer2D::DrawQuad(const glm::vec2& position, const float rotation, const glm::vec2& size, const glm::vec4& colour)
-	{
-		DrawQuad({ position.x, position.y, 0.f }, rotation, size, colour);
-	}
-
-	void Renderer2D::DrawQuad(const glm::vec3& position, const float rotation /*Radians*/, const glm::vec2& size, const glm::vec4& colour)
-	{
-		RS_PROFILE_FUNCTION();
-		ConstructQuadData(position, rotation, size, 0 /*White Texture Index*/, 1.f, colour);
-	}
-
-	void Renderer2D::DrawQuad(const glm::vec2& position, const glm::vec2& size, const Ref<Texture2D>& texture)
-	{
-		DrawQuad({ position.x, position.y, 0.f }, size, texture);
-	}
-
-	void Renderer2D::DrawQuad(const glm::vec3& position, const glm::vec2& size, const Ref<Texture2D>& texture)
-	{
-		DrawQuad({ position.x, position.y, position.z }, size, texture, 1.f);
-	}
-
-	void Renderer2D::DrawQuad(const glm::vec2& position, const float rotation, const glm::vec2& size, const Ref<Texture2D>& texture)
-	{
-		DrawQuad({ position.x, position.y, 0.f }, rotation, size, texture);
-	}
-
-	void Renderer2D::DrawQuad(const glm::vec3& position, const float rotation, const glm::vec2& size, const Ref<Texture2D>& texture)
-	{
-		DrawQuad({ position.x, position.y, position.z }, rotation, size, texture, 1.f);
-	}
-
-	void Renderer2D::DrawQuad(const glm::vec2& position, const glm::vec2& size, const Ref<Texture2D>& texture, const float texScale, const glm::vec4& tintColour)
-	{
-		DrawQuad({ position.x, position.y, 0.f }, size, texture, texScale, tintColour);
-	}
-
-	void Renderer2D::DrawQuad(const glm::vec3& position, const glm::vec2& size, const Ref<Texture2D>& texture, const float texScale, const glm::vec4& tintColour)
-	{
-		DrawQuad({ position.x, position.y, position.z }, 0.f, size, texture, texScale, tintColour);
-	}
-
-	void Renderer2D::DrawQuad(const glm::vec2& position, const float rotation, const glm::vec2& size, const Ref<Texture2D>& texture, const float texScale, const glm::vec4& tintColour)
-	{
-		DrawQuad({ position.x, position.y, 0.f }, rotation, size, texture, texScale, tintColour);
-	}
-
-	void Renderer2D::DrawQuad(const glm::vec3& position, const float rotation /*Radians*/, const glm::vec2& size, const Ref<Texture2D>& texture, const float texScale, const glm::vec4& tintColour)
+	void Renderer2D::DrawQuad(const DrawQuadParams&& params)
 	{
 		RS_PROFILE_FUNCTION();
 
+		auto [position, rotation, size, textureScale, tintColour] = params;
+
+		ConstructQuadData(position, rotation, size, 0 /*White Texture Index*/, s_Data.QuadTexCoords, 1.f, tintColour);
+	}
+
+	void Renderer2D::DrawTexturedQuad(const DrawTexturedQuadParams&& params)
+	{
+		RS_PROFILE_FUNCTION();
+
+		auto [position, rotation, size, texture, textureScale, tintColour] = params;
+
+		RS_CORE_ASSERT(texture, "Texture passed has not been setup or is null!");
+
+		ConstructQuadData(position, rotation, size, BatchTexture(texture), s_Data.QuadTexCoords, textureScale, tintColour);
+	}
+
+	void Renderer2D::DrawSubTexturedQuad(const DrawSubTexQuadParams&& params) // TODO: Potentially combine the 2 above functions into one. Only split up for convenience.
+	{
+		RS_PROFILE_FUNCTION();
+
+		auto [position, rotation, size, subTexture, textureScale, tintColour] = params;
+
+		RS_CORE_ASSERT(subTexture, "SubTexture passed has not been setup or is null!");
+
+		ConstructQuadData(position, rotation, size, BatchTexture(subTexture->GetTexture()), subTexture->GetTextureCoords(), textureScale, tintColour);
+	}
+
+	float Renderer2D::BatchTexture(const Ref<Texture2D>& texture)
+	{
 		// Try to find the texture if we have already used it, if not add it to our list for future reusing.
 		auto textureIndex{ 0.f };
 
@@ -268,14 +241,16 @@ namespace Rise
 		if (textureIndex == 0)
 		{
 			if (s_Data.TextureSlotIndex >= Renderer2DData::MaxTextureSlots)
+			{
 				FlushAndReset();
+			}
 
 			textureIndex = static_cast<float>(s_Data.TextureSlotIndex);
 			s_Data.TextureSlots[s_Data.TextureSlotIndex] = texture;
 			s_Data.TextureSlotIndex++;
 		}
 
-		ConstructQuadData(position, rotation, size, textureIndex, texScale, tintColour);
+		return textureIndex;
 	}
 
 	Renderer2D::Statistics& Renderer2D::GetStats()

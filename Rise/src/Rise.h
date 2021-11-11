@@ -25,6 +25,7 @@
 #include "Rise/Renderer/Buffer.h"
 #include "Rise/Renderer/Shader.h"
 #include "Rise/Renderer/Texture.h"
+#include "Rise/Renderer/SubTexture2D.h"
 #include "Rise/Renderer/VertexArray.h"
 
 #include "Rise/Renderer/OrthographicCamera.h"
