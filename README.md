@@ -1,8 +1,4 @@
-# Rise 1 Hour Game
-
-This is a quick little game made in a couple of hours to test out the current state of [Rise](https://github.com/Super-Shadow/Rise).<br/>Check out the video here: https://youtu.be/qITIvVV6BHk
-
-## Notes
+# Rise
 ![Rise](/Resources/Branding/Rise_Logo_Text_Light_Square.png?raw=true "Rise")
 
 Rise is primarily an early-stage interactive application and rendering engine for Windows. Currently not much is implemented, however (almost) everything inside this repository is being created within YouTube videos, found at [thecherno.com/engine](https://thecherno.com/engine). 
@@ -20,7 +16,6 @@ Make sure that you do a `--recursive` clone to fetch all of the submodules!
 The plan for Rise is two-fold: to create a powerful 3D engine, but also to serve as an education tool for teaching game engine design and architecture. Because of this the development inside this repository is rather slow, since everything has to be taught and implemented on-camera.
 
 ### Main features to come:
-- Fast 2D rendering (UI, particles, sprites, etc.)
 - High-fidelity Physically-Based 3D rendering (this will be expanded later, 2D to come first)
 - Support for Mac, Linux, Android and iOS
     - Native rendering API support (DirectX, Vulkan, Metal)
